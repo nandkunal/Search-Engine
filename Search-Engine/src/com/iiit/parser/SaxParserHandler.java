@@ -1,5 +1,7 @@
 package com.iiit.parser;
 
+import java.io.File;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -9,6 +11,12 @@ public class SaxParserHandler extends DefaultHandler {
 	boolean comment=false;
 	boolean username=false;
 	boolean text=false;
+	File formattedFile=null;
+	
+	public SaxParserHandler()
+	{
+		System.out.println("Will be Called Once ----");
+	}
 	
 	public void startElement(String uri, String localName,String qName, 
             Attributes attributes) throws SAXException {
@@ -34,21 +42,34 @@ public class SaxParserHandler extends DefaultHandler {
 	 public void characters (char ch[], int start, int length)
 		        throws SAXException
 		    {
+		 String value = new String(ch, start, length);
 		 if (pageTitle) {
-				System.out.println("Page Title : " + new String(ch, start, length));
-				pageTitle = false;
-			}
+			 if(value.length()!=0)//Removing Empty Spaces
+			 {
+				 System.out.println("Page Title : " +value);
+				 pageTitle = false;
+			 }
+		 }
 		 if (username) {
-				System.out.println("Username : " + new String(ch, start, length));
-				pageTitle = false;
+			 if(value.length()!=0)
+			 {
+				 System.out.println("Username : " +value);
+				 username = false;
+			 }
 			}
 		 if (comment) {
-				System.out.println("Comment : " + new String(ch, start, length));
-				pageTitle = false;
+			 if(value.length()!=0)
+			 {
+				 System.out.println("comment : " +value);
+				 comment = false;
+			 }
 			}
 		 if (text) {
-				System.out.println("Text : " + new String(ch, start, length));
-				text = false;
+			 if(value.length()!=0)
+			 {
+				 System.out.println("Text : " +value);
+				 text = false;
+			 }
 			}
 		    }
 	public void endElement(String uri, String localName,

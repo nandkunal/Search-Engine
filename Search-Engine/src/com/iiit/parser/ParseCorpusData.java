@@ -12,7 +12,7 @@ public class ParseCorpusData {
 
 	public static void main(String[] args) {
 
-		String datafile="/iiit-hyd/ire/assignment/sample.xml";
+		String datafile="C:\\IIIT-Hyd-Resources\\IRE\\sample.xml";
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			SAXParser saxParser = factory.newSAXParser();
@@ -29,6 +29,7 @@ public class ParseCorpusData {
 			e.printStackTrace();
 		} catch (SAXException e) {
 			// TODO Auto-generated catch block
+			System.exit(0);
 			e.printStackTrace();
 		}
 	 
