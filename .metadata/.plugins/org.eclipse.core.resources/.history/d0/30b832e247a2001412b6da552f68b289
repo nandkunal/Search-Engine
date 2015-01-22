@@ -18,7 +18,8 @@ public class Postings {
 	}
 	@Override
 	public String toString() {
-		return documentID+"##"+termFrequency;
+		return "Postings [documentID=" + documentID + ", termFrequency="
+				+ termFrequency + "]";
 	}
 
 }

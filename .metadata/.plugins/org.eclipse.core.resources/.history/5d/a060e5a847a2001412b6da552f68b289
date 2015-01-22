@@ -29,8 +29,10 @@ public class SearchTerm {
 	{
 		
 			String result = getTermFromInvertedIndex(Query);
+			System.out.println(result);
 			if(result!=null)
-			System.out.println("Term  "+Query+" occurs in "+"documentId "+ result.split("##")[1].substring(1)+"  with Term Frequency "+result.split("##")[2]);
+				
+			System.out.println("Term  "+Query+" occurs "+ result.split("##")[1]+" times in the Document");
 			else
 			  System.out.println("Term Not Found");	
 		
