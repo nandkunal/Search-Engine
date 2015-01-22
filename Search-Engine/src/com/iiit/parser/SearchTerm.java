@@ -12,16 +12,28 @@ import java.util.StringTokenizer;
 public class SearchTerm {
 	
 	
-	public void search(String Query)
+/*	public void search(String Query)
 	{
 		int offset= getTermOffset(Query);
+		System.out.println("Offset is----"+offset);
 		if(offset==-1){
 			System.out.println("Term Not Present");
 		}else{
 			String result = lookupTermOffsetFile(offset);
 			System.out.println(result);
-			//System.out.println("Term : "+result.split("##")[0]+" occurs "+ result.split("##")[1]+" times in the Document");
+			System.out.println("Term : "+Query+" occurs "+ result.split("##")[1]+" times in the Document");
 		}
+	}
+	*/
+	public void search(String Query)
+	{
+		
+			String result = getTermFromInvertedIndex(Query);
+			if(result!=null)
+			System.out.println("Term  "+Query+" occurs "+ result.split("##")[1]+" times in the Document");
+			else
+			  System.out.println("Term Not Found");	
+		
 	}
 	
 	private int getTermOffset(String term)
@@ -29,7 +41,7 @@ public class SearchTerm {
 		int offset=-1;
 		 Scanner reader=null;
 		try {
-			reader=new Scanner(new File("/iiit-hyd/IRE/resources/termoffset.txt"));
+			reader=new Scanner(new File("C:\\IIIT-Hyd-Assignments\\IRE\\termoffset.txt"));
 			
 			   while(reader.hasNext()) {
 		            
@@ -55,7 +67,7 @@ public class SearchTerm {
 	private String lookupTermOffsetFile(int offset){
 		String data="";
 		try {
-			RandomAccessFile fileAccess = new  RandomAccessFile("/iiit-hyd/IRE/resources/index.txt", "r");
+			RandomAccessFile fileAccess = new  RandomAccessFile("C:\\IIIT-Hyd-Assignments\\IRE\\index.txt", "r");
 			try {
 				fileAccess.seek(offset);
 				data = fileAccess.readLine();
@@ -70,6 +82,34 @@ public class SearchTerm {
 		}
 		
 		return data;
+	}
+	
+	private String getTermFromInvertedIndex(String term)
+	{
+		 String data="";
+		 Scanner reader=null;
+		try {
+			reader=new Scanner(new File("C:\\IIIT-Hyd-Assignments\\IRE\\index.txt"));
+			
+			   while(reader.hasNext()) {
+		            
+		            String  text = reader.next();
+		            if(text.split("##")[0].equalsIgnoreCase(term)){
+		            	data=text;
+		            	break;
+		            }
+		            
+		        }
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}catch(Exception ex) {
+	        ex.printStackTrace();
+	    }finally{
+	    	reader.close();
+	    }
+		return data;
+				
 	}
 
 }

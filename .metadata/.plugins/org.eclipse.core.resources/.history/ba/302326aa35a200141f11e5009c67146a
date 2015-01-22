@@ -1,0 +1,19 @@
+package com.iiit.parser;
+
+public class Main {
+	
+	public static void main(String[] args) {
+	/*	String datafile="C:\\IIIT-Hyd-Assignments\\IRE\\sample.xml";
+		ParseCorpusData parser = new ParseCorpusData();
+		parser.parseCorpusUnFormattedData(datafile);
+		Tokenizer tokenizer = new Tokenizer("C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
+		tokenizer.tokenizeFormattedFile();
+		InvertedIndex iv=new InvertedIndex();
+		iv.buildIndex("C:\\IIIT-Hyd-Assignments\\IRE\\token.txt", "C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
+		TermOffset termOffset = new TermOffset();
+		termOffset.buildTermOffset("C:\\IIIT-Hyd-Assignments\\IRE\\index.txt");*/
+		SearchTerm searchObj = new SearchTerm();
+		searchObj.search("[[ca:Brookfield");
+	}
+
+}

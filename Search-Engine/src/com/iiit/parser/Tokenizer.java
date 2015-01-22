@@ -22,11 +22,12 @@ public class Tokenizer {
 
 	    int read, N = 1024 * 1024;
 	    char[] buffer = new char[N];
-	    File termToken= new File("/iiit-hyd/IRE/resources/token.txt");
+	    File termToken= new File("C:\\IIIT-Hyd-Assignments\\IRE\\token.txt");
 	    FileReader fr = null;
         BufferedReader br = null;
         FileWriter fw = null;
         BufferedWriter bw = null;
+        System.out.println("Building Token File Started...");
 	    try {
 	        fr = new FileReader(filePath);
 	        br = new BufferedReader(fr);
@@ -38,9 +39,15 @@ public class Tokenizer {
 	            String  text = new String(buffer, 0, read);
 	            StringTokenizer tokenizer = new StringTokenizer(text," ");
 	            while(tokenizer.hasMoreTokens())
-	            {
-	            	bw.write(tokenizer.nextToken());
-	            	bw.write("###");
+	            {   
+	            	String word = tokenizer.nextToken();
+	            	if(!word.matches("//s+")){
+	            		if(!SearchUtils.getStopWordsList().contains(word)){
+		            		bw.write(word);
+		            	}
+	            	}
+	            	
+	            	bw.write("##");//Delimiter
 	            }
 
 	            if(read < N) {
@@ -55,6 +62,7 @@ public class Tokenizer {
 				fw.close();
 				br.close();
 				fr.close();
+				System.out.println("Building Token File Completed!!!");
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

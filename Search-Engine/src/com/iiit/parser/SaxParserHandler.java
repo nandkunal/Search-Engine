@@ -19,7 +19,7 @@ public class SaxParserHandler extends DefaultHandler {
 	
 	public SaxParserHandler()
 	{
-		String path="/iiit-hyd/IRE/resources";
+		String path="C:\\IIIT-Hyd-Assignments\\IRE";
 		String fileName="formatted-corpus.txt";
 		formattedFile=SearchUtils.createRawDataFileFromCorpus(path, fileName);
 		

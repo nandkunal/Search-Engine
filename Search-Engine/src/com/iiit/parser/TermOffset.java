@@ -23,13 +23,15 @@ public class TermOffset {
 		try {
 			fileReader = new Scanner(new File(invertedIndexFile));
 			fileReader.useDelimiter("\n");
+			int lineIndex=1;
 			while(fileReader.hasNext())
 			{
 				String line = fileReader.next();
 				termOffsetMap.put(line.split("##")[0], offset);
-				offset=offset+line.length();
+				offset=offset+line.length()+lineIndex;
+				lineIndex++;
 			}
-			System.out.println(termOffsetMap);
+			//System.out.println(termOffsetMap);
 			populateTermOffserFile(termOffsetMap);
 			
 		} catch (FileNotFoundException e) {
@@ -45,7 +47,7 @@ public class TermOffset {
 		BufferedWriter bw = null;
 		try {
 
-			String termOffsetFile="/iiit-hyd/IRE/resources/termoffset.txt";
+			String termOffsetFile="C:\\IIIT-Hyd-Assignments\\IRE\\termoffset.txt";
 			fw = new FileWriter(termOffsetFile,true);
 			bw = new BufferedWriter(fw);
 

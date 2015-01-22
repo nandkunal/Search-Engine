@@ -10,28 +10,32 @@ import org.xml.sax.SAXException;
 
 public class ParseCorpusData {
 
-	public static void main(String[] args) {
+	public  void parseCorpusUnFormattedData(String datafile) {
 
-		String datafile="/iiit-hyd/IRE/assignment/sample.xml";
+		
 		SAXParserFactory factory = SAXParserFactory.newInstance();
+		System.out.println("Parsing of Corpus Data started....");
+		long start=System.currentTimeMillis();
 		try {
 			SAXParser saxParser = factory.newSAXParser();
-			try {
-				saxParser.parse(datafile, new SaxParserHandler());
-				
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
 			
+				saxParser.parse(datafile, new SaxParserHandler());
 			
 		} catch (ParserConfigurationException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		} catch (SAXException e) {
-			// TODO Auto-generated catch block
-			System.exit(0);
-			e.printStackTrace();
+			
+			//System.exit(0);
+			System.err.print("Parsing Encountered an Error!!");
+		}catch(IOException io)
+		{
+			io.printStackTrace();
+		}finally{
+			System.out.println("Parsing of Corpus Data is Completed....");
+			long end=System.currentTimeMillis();
+			long diff = end-start;
+			System.out.println("Time Taken to Complete Parsing and Writing Corpus data is "+diff);
 		}
 	 
 		

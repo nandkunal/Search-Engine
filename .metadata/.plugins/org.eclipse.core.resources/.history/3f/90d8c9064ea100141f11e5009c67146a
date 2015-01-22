@@ -1,0 +1,63 @@
+package com.iiit.parser;
+
+import org.xml.sax.Attributes;
+import org.xml.sax.SAXException;
+import org.xml.sax.helpers.DefaultHandler;
+
+public class SaxParserHandler extends DefaultHandler {
+	boolean pageTitle=false;
+	boolean comment=false;
+	boolean username=false;
+	boolean text=false;
+	
+	public void startElement(String uri, String localName,String qName, 
+            Attributes attributes) throws SAXException {
+		//System.out.println("Start Element :" + qName);
+		if(qName.equalsIgnoreCase("title"))
+		{
+			pageTitle=true;
+		}
+		if(qName.equalsIgnoreCase("username"))
+		{
+			username=true;
+		}
+		if(qName.equalsIgnoreCase("comment"))
+		{
+			comment=true;
+		}
+		if(qName.equalsIgnoreCase("text"))
+		{
+			text=true;
+		}
+	}
+	
+	 public void characters (char ch[], int start, int length)
+		        throws SAXException
+		    {
+		 String value = new String(ch, start, length);
+		 if (pageTitle) {
+			 if(value.length()!=0)
+				System.out.println("Page Title : " +value);
+				pageTitle = false;
+			}
+		 if (username) {
+				System.out.println("Username : " + new String(ch, start, length));
+				pageTitle = false;
+			}
+		 if (comment) {
+				System.out.println("Comment : " + new String(ch, start, length));
+				pageTitle = false;
+			}
+		 if (text) {
+				System.out.println("Text : " + new String(ch, start, length));
+				text = false;
+			}
+		    }
+	public void endElement(String uri, String localName,
+			String qName) throws SAXException {
+	 
+			System.out.println("End Element :" + qName);
+	 
+		}
+	
+}

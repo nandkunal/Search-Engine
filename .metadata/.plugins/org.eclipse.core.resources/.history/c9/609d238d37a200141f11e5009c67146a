@@ -1,0 +1,48 @@
+package com.iiit.parser;
+
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Scanner;
+
+public class SearchUtils {
+	
+	public static File  createRawDataFileFromCorpus(String path,String fileName)
+	{
+		
+		File plainDataFile = new File(path+File.separator+fileName);
+		try {
+			if(!plainDataFile.exists())//Don't Create Corpus File Each time
+			plainDataFile.createNewFile();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return plainDataFile;
+	}
+	
+	public static List<String> getStopWordsList(){
+		List<String> stopWordList = new ArrayList<String>();
+		try {
+			Scanner reader= new Scanner(new File("stopwords.txt"));
+			reader.useDelimiter("\n");
+			while(reader.hasNext()){
+				stopWordList.add(reader.next());
+			}
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return stopWordList;
+	}
+	
+	public static void buildIndexFile()
+	{
+		
+	}
+
+}

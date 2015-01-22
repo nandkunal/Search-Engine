@@ -16,5 +16,10 @@ public class Postings {
 	public void setTermFrequency(int termFrequency) {
 		this.termFrequency = termFrequency;
 	}
+	@Override
+	public String toString() {
+		return "Postings [documentID=" + documentID + ", termFrequency="
+				+ termFrequency + "]";
+	}
 
 }

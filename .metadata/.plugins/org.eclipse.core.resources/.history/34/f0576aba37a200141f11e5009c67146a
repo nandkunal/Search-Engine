@@ -1,0 +1,11 @@
+package com.iiit.parser;
+
+public class Main {
+	
+	public static void main(String[] args) {
+		
+		SearchTerm searchObj = new SearchTerm();
+		searchObj.search("MinnesotaEden");
+	}
+
+}
