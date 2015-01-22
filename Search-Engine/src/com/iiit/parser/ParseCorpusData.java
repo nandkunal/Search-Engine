@@ -12,12 +12,13 @@ public class ParseCorpusData {
 
 	public static void main(String[] args) {
 
-		String datafile="C:\\IIIT-Hyd-Resources\\IRE\\sample.xml";
+		String datafile="/iiit-hyd/IRE/assignment/sample.xml";
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 			SAXParser saxParser = factory.newSAXParser();
 			try {
 				saxParser.parse(datafile, new SaxParserHandler());
+				
 			} catch (IOException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

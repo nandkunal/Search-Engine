@@ -5,10 +5,10 @@ import java.io.IOException;
 
 public class SearchUtils {
 	
-	public static String  createRawDataFileFromCorpus()
+	public static File  createRawDataFileFromCorpus(String path,String fileName)
 	{
-		String path="C:\\IIIT-Hyd-Resources\\IRE\\formatted-corpus.txt";
-		File plainDataFile = new File(path);
+		
+		File plainDataFile = new File(path+File.separator+fileName);
 		try {
 			plainDataFile.createNewFile();
 		} catch (IOException e) {
@@ -16,7 +16,8 @@ public class SearchUtils {
 			e.printStackTrace();
 		}
 		
-		return path;
+		return plainDataFile;
 	}
+	
 
 }

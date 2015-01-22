@@ -1,6 +1,9 @@
 package com.iiit.parser;
 
+import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
@@ -13,14 +16,21 @@ public class SaxParserHandler extends DefaultHandler {
 	boolean text=false;
 	File formattedFile=null;
 	
+	
 	public SaxParserHandler()
 	{
-		System.out.println("Will be Called Once ----");
+		String path="/iiit-hyd/IRE/resources";
+		String fileName="formatted-corpus.txt";
+		formattedFile=SearchUtils.createRawDataFileFromCorpus(path, fileName);
+		
+		
 	}
 	
 	public void startElement(String uri, String localName,String qName, 
             Attributes attributes) throws SAXException {
 		//System.out.println("Start Element :" + qName);
+	
+		
 		if(qName.equalsIgnoreCase("title"))
 		{
 			pageTitle=true;
@@ -41,37 +51,56 @@ public class SaxParserHandler extends DefaultHandler {
 	
 	 public void characters (char ch[], int start, int length)
 		        throws SAXException
-		    {
-		 String value = new String(ch, start, length);
-		 if (pageTitle) {
-			 if(value.length()!=0)//Removing Empty Spaces
-			 {
-				 System.out.println("Page Title : " +value);
-				 pageTitle = false;
+	 {
+		 FileWriter fw = null;
+		 BufferedWriter bw =null;
+		 try {
+			 fw = new FileWriter(formattedFile,true);
+			 bw = new BufferedWriter(fw);
+
+			 String value = new String(ch, start, length);
+			 if (pageTitle) {
+				 if(value.length()!=0)//Removing Empty Spaces
+				 {
+					 bw.write(value);
+					 pageTitle = false;
+				 }
+			 }
+			 if (username) {
+				 if(value.length()!=0)
+				 {
+					 bw.write(value);
+					 username = false;
+				 }
+			 }
+			 if (comment) {
+				 if(value.length()!=0)
+				 {
+					 bw.write(value);
+					 comment = false;
+				 }
+			 }
+			 if (text) {
+				 if(value.length()!=0)
+				 {
+					 
+					 bw.write(value);
+					 text = false;
+				 }
+			 }
+		 } catch (IOException e) {
+			 // TODO Auto-generated catch block
+			 e.printStackTrace();
+		 }finally{
+			 try {
+				 bw.close();
+				 fw.close();
+			 } catch (IOException e) {
+				 // TODO Auto-generated catch block
+				 e.printStackTrace();
 			 }
 		 }
-		 if (username) {
-			 if(value.length()!=0)
-			 {
-				 System.out.println("Username : " +value);
-				 username = false;
-			 }
-			}
-		 if (comment) {
-			 if(value.length()!=0)
-			 {
-				 System.out.println("comment : " +value);
-				 comment = false;
-			 }
-			}
-		 if (text) {
-			 if(value.length()!=0)
-			 {
-				 System.out.println("Text : " +value);
-				 text = false;
-			 }
-			}
-		    }
+	 }
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
 	 
