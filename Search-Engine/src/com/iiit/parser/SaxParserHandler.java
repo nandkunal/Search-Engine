@@ -13,81 +13,56 @@ public class SaxParserHandler extends DefaultHandler {
 	boolean pageTitle=false;
 	boolean comment=false;
 	boolean username=false;
-	boolean text=false;
-	File formattedFile=null;
-	
+	boolean text= false;
+	boolean page = false;
+	int documentID=0;
+	String documentDirName;
+	String docDirPath;
 	
 	public SaxParserHandler()
 	{
 		String path="C:\\IIIT-Hyd-Assignments\\IRE";
-		String fileName="formatted-corpus.txt";
-		formattedFile=SearchUtils.createRawDataFileFromCorpus(path, fileName);
+		documentDirName="documents";
+		SearchUtils.createRawDataDocumentDirectory(path, documentDirName);
+		docDirPath=path+File.separator+documentDirName;
 		
 		
 	}
 	
 	public void startElement(String uri, String localName,String qName, 
             Attributes attributes) throws SAXException {
-		//System.out.println("Start Element :" + qName);
-	
 		
-		if(qName.equalsIgnoreCase("title"))
+	
+		if(qName.equalsIgnoreCase("page"))
 		{
-			pageTitle=true;
+			page=true;
+			documentID++;
 		}
-		if(qName.equalsIgnoreCase("username"))
-		{
-			username=true;
-		}
-		if(qName.equalsIgnoreCase("comment"))
-		{
-			comment=true;
-		}
-		if(qName.equalsIgnoreCase("text"))
-		{
-			text=true;
-		}
+		
 	}
 	
 	 public void characters (char ch[], int start, int length)
 		        throws SAXException
-	 {
+	 {  
+		 if (page) {
+		 String fileName="datafile_"+documentID;
 		 FileWriter fw = null;
 		 BufferedWriter bw =null;
+		 File documentFile=new File(docDirPath+File.separator+fileName);
 		 try {
-			 fw = new FileWriter(formattedFile,true);
+			 fw = new FileWriter(documentFile,true);
 			 bw = new BufferedWriter(fw);
 
 			 String value = new String(ch, start, length);
-			 if (pageTitle) {
-				 if(value.length()!=0)//Removing Empty Spaces
-				 {
+			
+				 if(value.length()!=0)//Check if tag is not empty
+				 {   
+					 value.replaceAll("\\s+","");//Removing Empty Spaces and Lines
 					 bw.write(value);
 					 pageTitle = false;
 				 }
-			 }
-			 if (username) {
-				 if(value.length()!=0)
-				 {
-					 bw.write(value);
-					 username = false;
-				 }
-			 }
-			 if (comment) {
-				 if(value.length()!=0)
-				 {
-					 bw.write(value);
-					 comment = false;
-				 }
-			 }
-			 if (text) {
-				 if(value.length()!=0)
-				 {
-					 
-					 bw.write(value);
-					 text = false;
-				 }
-			 }
+			 
+			 
 		 } catch (IOException e) {
 			 // TODO Auto-generated catch block
 			 e.printStackTrace();
@@ -99,6 +74,7 @@ public class SaxParserHandler extends DefaultHandler {
 				 // TODO Auto-generated catch block
 				 e.printStackTrace();
 			 }
+		 }
 		 }
 	 }
 	public void endElement(String uri, String localName,

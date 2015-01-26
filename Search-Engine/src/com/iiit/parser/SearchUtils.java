@@ -24,6 +24,16 @@ public class SearchUtils {
 		return plainDataFile;
 	}
 	
+	public static void createRawDataDocumentDirectory(String path,String dirName)
+	{
+		
+		File plainDataFile = new File(path+File.separator+dirName);
+		
+			if(!plainDataFile.exists())//Don't Create Corpus Directory Each time
+			plainDataFile.mkdir();
+		
+	}
+	
 	public static List<String> getStopWordsList(){
 		List<String> stopWordList = new ArrayList<String>();
 		try {
@@ -45,10 +55,10 @@ public class SearchUtils {
 		String datafile="C:\\IIIT-Hyd-Assignments\\IRE\\sample.xml";
 		ParseCorpusData parser = new ParseCorpusData();
 		parser.parseCorpusUnFormattedData(datafile);
-		Tokenizer tokenizer = new Tokenizer("C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
-		tokenizer.tokenizeFormattedFile();
-		InvertedIndex iv=new InvertedIndex();
-		iv.buildIndex("C:\\IIIT-Hyd-Assignments\\IRE\\token.txt", "C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
+		//Tokenizer tokenizer = new Tokenizer("C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
+		//tokenizer.tokenizeFormattedFile();
+		//InvertedIndex iv=new InvertedIndex();
+		//iv.buildIndex("C:\\IIIT-Hyd-Assignments\\IRE\\token.txt", "C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
 		//TermOffset termOffset = new TermOffset();
 		//termOffset.buildTermOffset("C:\\IIIT-Hyd-Assignments\\IRE\\index.txt");
 	}
