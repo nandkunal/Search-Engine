@@ -10,21 +10,16 @@ import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SaxParserHandler extends DefaultHandler {
-	boolean pageTitle=false;
-	boolean comment=false;
-	boolean username=false;
-	boolean text= false;
 	boolean page = false;
 	int documentID=0;
-	String documentDirName;
-	String docDirPath;
+	String documentDirPath;
 	
-	public SaxParserHandler()
+	public SaxParserHandler(String documentDirPath)
 	{
-		String path="C:\\IIIT-Hyd-Assignments\\IRE";
-		documentDirName="documents";
-		SearchUtils.createRawDataDocumentDirectory(path, documentDirName);
-		docDirPath=path+File.separator+documentDirName;
+		
+		this.documentDirPath=documentDirPath;
+		SearchUtils.createRawDataDocumentDirectory(documentDirPath);
+		
 		
 		
 	}
@@ -48,7 +43,7 @@ public class SaxParserHandler extends DefaultHandler {
 		 String fileName="datafile_"+documentID;
 		 FileWriter fw = null;
 		 BufferedWriter bw =null;
-		 File documentFile=new File(docDirPath+File.separator+fileName);
+		 File documentFile=new File(documentDirPath+File.separator+fileName);
 		 try {
 			 fw = new FileWriter(documentFile,true);
 			 bw = new BufferedWriter(fw);
@@ -57,9 +52,9 @@ public class SaxParserHandler extends DefaultHandler {
 			
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
-					 value.replaceAll("\\s+","");//Removing Empty Spaces and Lines
+					 //value.replaceAll("\\s+","");//Removing Empty Spaces and Lines
 					 bw.write(value);
-					 pageTitle = false;
+					 page = false;
 				 }
 			 
 			 
@@ -80,7 +75,7 @@ public class SaxParserHandler extends DefaultHandler {
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
 	 
-			//System.out.println("End Element :" + qName);
+			
 	 
 		}
 	

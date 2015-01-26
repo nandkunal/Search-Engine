@@ -24,10 +24,10 @@ public class SearchUtils {
 		return plainDataFile;
 	}
 	
-	public static void createRawDataDocumentDirectory(String path,String dirName)
+	public static void createRawDataDocumentDirectory(String documentDirPath)
 	{
 		
-		File plainDataFile = new File(path+File.separator+dirName);
+		File plainDataFile = new File(documentDirPath);
 		
 			if(!plainDataFile.exists())//Don't Create Corpus Directory Each time
 			plainDataFile.mkdir();
@@ -50,11 +50,10 @@ public class SearchUtils {
 		return stopWordList;
 	}
 	
-	public static void buildAllIndexFiles()
+	public static void buildAllIndexFiles(String rootPath,String inputFileName,String documentDirName)
 	{
-		String datafile="C:\\IIIT-Hyd-Assignments\\IRE\\sample.xml";
 		ParseCorpusData parser = new ParseCorpusData();
-		parser.parseCorpusUnFormattedData(datafile);
+		parser.parseCorpusUnFormattedData(rootPath,inputFileName,documentDirName);
 		//Tokenizer tokenizer = new Tokenizer("C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
 		//tokenizer.tokenizeFormattedFile();
 		//InvertedIndex iv=new InvertedIndex();
