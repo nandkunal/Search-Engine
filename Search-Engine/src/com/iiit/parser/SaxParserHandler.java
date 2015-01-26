@@ -52,9 +52,11 @@ public class SaxParserHandler extends DefaultHandler {
 			
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
-					 //value.replaceAll("\\s+","");//Removing Empty Spaces and Lines
-					 bw.write(value);
-					 page = false;
+					 value=value.replaceAll("\\s+|\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\|","");//Removing Empty Spaces
+					 value=value.replaceAll("&nbsp;", " ");
+					 
+					 bw.write(value.trim());
+					 
 				 }
 			 
 			 
@@ -74,8 +76,11 @@ public class SaxParserHandler extends DefaultHandler {
 	 }
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
-	 
-			
+	  
+		if(qName.equalsIgnoreCase("page"))
+		{
+			page=false;
+		}
 	 
 		}
 	

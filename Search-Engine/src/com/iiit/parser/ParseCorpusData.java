@@ -29,7 +29,7 @@ public class ParseCorpusData {
 		} catch (SAXException e) {
 			
 			//System.exit(0);
-			e.printStackTrace();
+			//e.printStackTrace();
 			System.err.print("Parsing Encountered an Error!!");
 		}catch(IOException io)
 		{
