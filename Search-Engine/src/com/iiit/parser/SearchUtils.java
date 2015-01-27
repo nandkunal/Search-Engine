@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
+import java.util.StringTokenizer;
 
 public class SearchUtils {
 	
@@ -34,6 +35,18 @@ public class SearchUtils {
 		
 	}
 	
+	public static String tokenizeString(String inputStr)
+	{   
+		StringBuilder outputStr=new StringBuilder();
+		StringTokenizer tokenizer = new StringTokenizer(inputStr, " ");
+		while(tokenizer.hasMoreTokens())
+		{
+			outputStr.append(tokenizer.nextToken());
+			outputStr.append("|");//delimeter
+		}
+		return outputStr.toString().trim();
+	}
+	
 	public static List<String> getStopWordsList(){
 		List<String> stopWordList = new ArrayList<String>();
 		try {
@@ -50,16 +63,12 @@ public class SearchUtils {
 		return stopWordList;
 	}
 	
-	public static void buildAllIndexFiles(String rootPath,String inputFileName,String documentDirName)
+	public static void buildAllIndexFiles(String rootPath,String inputFileName,String documentDirName,String invertedIndexFileName)
 	{
 		ParseCorpusData parser = new ParseCorpusData();
 		parser.parseCorpusUnFormattedData(rootPath,inputFileName,documentDirName);
-		//Tokenizer tokenizer = new Tokenizer("C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
-		//tokenizer.tokenizeFormattedFile();
-		//InvertedIndex iv=new InvertedIndex();
-		//iv.buildIndex("C:\\IIIT-Hyd-Assignments\\IRE\\token.txt", "C:\\IIIT-Hyd-Assignments\\IRE\\formatted-corpus.txt");
-		//TermOffset termOffset = new TermOffset();
-		//termOffset.buildTermOffset("C:\\IIIT-Hyd-Assignments\\IRE\\index.txt");
+		InvertedIndex iv=new InvertedIndex();
+        iv.createInvertedIndex(rootPath, documentDirName, invertedIndexFileName);
 	}
 
 }

@@ -52,10 +52,12 @@ public class SaxParserHandler extends DefaultHandler {
 			
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
-					 value=value.replaceAll("\\s+|\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\|","");//Removing Empty Spaces
+					 value=value.replaceAll("\\s{2,}","");//Removing More Than One Empty Spaces
+					 value=value.replaceAll("\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\=|\\|","");//Removing extra characters
 					 value=value.replaceAll("&nbsp;", " ");
-					 
-					 bw.write(value.trim());
+					 //Now Tokenizing in Memory
+					 value=SearchUtils.tokenizeString(value);
+					 bw.write(value);
 					 
 				 }
 			 

@@ -2,12 +2,12 @@ package com.iiit.parser;
 
 public class Postings {
 	
-	private int documentID;
+	private String documentID;
 	private int termFrequency;
-	public int getDocumentID() {
+	public String getDocumentID() {
 		return documentID;
 	}
-	public void setDocumentID(int documentID) {
+	public void setDocumentID(String documentID) {
 		this.documentID = documentID;
 	}
 	public int getTermFrequency() {
@@ -18,7 +18,7 @@ public class Postings {
 	}
 	@Override
 	public String toString() {
-		return documentID+"##"+termFrequency;
+		return documentID+"::"+termFrequency;
 	}
 
 }
