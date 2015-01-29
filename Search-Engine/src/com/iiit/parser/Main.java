@@ -4,11 +4,12 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		String rootPath="/iiit-hyd/IRE/assignment/corpus";
-		String inputFileName="sample.xml";
-		String documentDirName="documents";
-		String indexFileName="index";
-        SearchUtils.buildAllIndexFiles(rootPath,inputFileName,documentDirName,indexFileName); 
+		
+		//String inputFilePath="/iiit-hyd/IRE/assignment/corpus/test.xml";
+		String inputFilePath=args[0];
+		String documentDirName="Index";
+		String indexFileName="inverted_index";
+        SearchUtils.buildAllIndexFiles(inputFilePath,documentDirName,indexFileName); 
 		
 	}
 

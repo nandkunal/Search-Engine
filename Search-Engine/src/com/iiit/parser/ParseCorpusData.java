@@ -11,10 +11,9 @@ import org.xml.sax.SAXException;
 
 public class ParseCorpusData {
 
-	public  void parseCorpusUnFormattedData(String rootPath,String inputFileName,String documentDirName) {
+	public  void parseCorpusUnFormattedData(String inputFilePath,String documentDirName) {
 
-		String inputFilePath = rootPath+File.separator+inputFileName;
-		String documentFilePath=rootPath+File.separator+documentDirName;
+		String documentFilePath=documentDirName;
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		System.out.println("Parsing of Corpus Data started....");
 		long start=System.currentTimeMillis();

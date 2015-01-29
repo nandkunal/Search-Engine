@@ -28,7 +28,7 @@ public class SaxParserHandler extends DefaultHandler {
             Attributes attributes) throws SAXException {
 		
 	
-		if(qName.equalsIgnoreCase("page"))
+		if(qName.equalsIgnoreCase("text"))
 		{
 			page=true;
 			documentID++;
@@ -52,8 +52,13 @@ public class SaxParserHandler extends DefaultHandler {
 			
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
+					 //Perform all Kinds of 
+					 //1.Invalid character removal
+					 //2.Filtering words
+					 //3.Removing empty space and lines
+					 //4.Removing extra characters
 					 value=value.replaceAll("\\s{2,}","");//Removing More Than One Empty Spaces
-					 value=value.replaceAll("\\d", "");
+					 value=value.replaceAll("\\d", "");//Remove all Numeric characters
 					 value=value.replaceAll("\\.", "");
 					 value=value.replaceAll("\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\=|\\|","");//Removing extra characters
 					 value=value.replaceAll("&nbsp;", " ");
@@ -81,7 +86,7 @@ public class SaxParserHandler extends DefaultHandler {
 	public void endElement(String uri, String localName,
 			String qName) throws SAXException {
 	  
-		if(qName.equalsIgnoreCase("page"))
+		if(qName.equalsIgnoreCase("text"))
 		{
 			page=false;
 		}

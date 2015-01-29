@@ -42,9 +42,13 @@ public class SearchUtils {
 		while(tokenizer.hasMoreTokens())
 		{   
 			String token = tokenizer.nextToken();
+			token=token.toLowerCase().trim();//Converting all To Lower Case
+			token=token.replaceAll("\\,", "");
+			if(!token.contains("_") && !(token.length()==1)){
 			if(!SearchUtils.getStopWordsList().contains(token)){
 				outputStr.append(token);
 				outputStr.append("|");//delimeter
+			}
 			}
 			
 		}
@@ -70,12 +74,13 @@ public class SearchUtils {
 		return stopWordList;
 	}
 	
-	public static void buildAllIndexFiles(String rootPath,String inputFileName,String documentDirName,String invertedIndexFileName)
-	{
+	public static void buildAllIndexFiles(String inputFilePath,String documentDirName,String invertedIndexFileName)
+	{   
+		
 		ParseCorpusData parser = new ParseCorpusData();
-		parser.parseCorpusUnFormattedData(rootPath,inputFileName,documentDirName);
+		parser.parseCorpusUnFormattedData(inputFilePath,documentDirName);
 		InvertedIndex iv=new InvertedIndex();
-        iv.createInvertedIndex(rootPath, documentDirName, invertedIndexFileName);
+        iv.createInvertedIndex(documentDirName, invertedIndexFileName);
 	}
 
 }

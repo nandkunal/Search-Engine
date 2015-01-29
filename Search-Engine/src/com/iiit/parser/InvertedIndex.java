@@ -18,13 +18,13 @@ public class InvertedIndex {
 	
 	
 	
-	public void createInvertedIndex(String rootPath,String documentDirName,String invertedIndexFileName)
+	public void createInvertedIndex(String documentDirName,String invertedIndexFileName)
 	{
 		System.out.println("Building Inverted Index File Started...");
 		long start=System.currentTimeMillis();
 		Map<String,List<Postings>> invertedIndexMap = new HashMap<String,List<Postings>>();
-		File f =new File(rootPath+File.separator+documentDirName);
-		File index = new File(rootPath+File.separator+invertedIndexFileName);
+		File f =new File(documentDirName);
+		File index = new File(documentDirName+File.separator+invertedIndexFileName);
 		File[] docFiles=f.listFiles();
 		if(docFiles.length>0)
 		{
