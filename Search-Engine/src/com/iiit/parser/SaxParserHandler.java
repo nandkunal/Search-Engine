@@ -53,6 +53,8 @@ public class SaxParserHandler extends DefaultHandler {
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
 					 value=value.replaceAll("\\s{2,}","");//Removing More Than One Empty Spaces
+					 value=value.replaceAll("\\d", "");
+					 value=value.replaceAll("\\.", "");
 					 value=value.replaceAll("\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\=|\\|","");//Removing extra characters
 					 value=value.replaceAll("&nbsp;", " ");
 					 //Now Tokenizing in Memory

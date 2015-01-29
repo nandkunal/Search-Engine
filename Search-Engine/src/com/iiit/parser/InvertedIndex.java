@@ -21,6 +21,7 @@ public class InvertedIndex {
 	public void createInvertedIndex(String rootPath,String documentDirName,String invertedIndexFileName)
 	{
 		System.out.println("Building Inverted Index File Started...");
+		long start=System.currentTimeMillis();
 		Map<String,List<Postings>> invertedIndexMap = new HashMap<String,List<Postings>>();
 		File f =new File(rootPath+File.separator+documentDirName);
 		File index = new File(rootPath+File.separator+invertedIndexFileName);
@@ -29,10 +30,14 @@ public class InvertedIndex {
 		{
 			for(File document:docFiles)
 			{
-				buildIndex(document,invertedIndexMap,index);
+				buildIndex(document,invertedIndexMap);
 			}
+			 buildInvertedindex(invertedIndexMap,index);
 		}
 		System.out.println("Building Inverted File Completed!!!");
+		long end=System.currentTimeMillis();
+		long diff = end-start;
+		System.out.println("Time Taken to Create Index File is "+diff+" milliseconds");
 	}
 	
 	
@@ -44,7 +49,7 @@ public class InvertedIndex {
 
 
 
-	private void buildIndex(File tokenDataFile,Map<String, List<Postings>> invertedIndexMap,File indexFile)
+	private void buildIndex(File tokenDataFile,Map<String, List<Postings>> invertedIndexMap)
 	{
 		 int read, N = 1024 * 1024;
 		  char[] buffer = new char[N];
@@ -90,8 +95,7 @@ public class InvertedIndex {
 		            }
 		        }
 		     
-		     //System.out.println(TermTFMap);
-		     buildInvertedindex(invertedIndexMap,indexFile);
+		    
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -121,8 +125,16 @@ public class InvertedIndex {
 
 
 			for (Entry<String, List<Postings>> entry : invertedIndexMap.entrySet())
-			{
-				bw.write(entry.getKey()+"|"+entry.getValue());
+			{   
+				List<Postings> lst = entry.getValue();
+				StringBuilder postinglist=new StringBuilder();
+				for(Postings p :lst)
+				{
+					postinglist.append(p.getDocumentID()+":"+p.getTermFrequency());
+					postinglist.append(",");
+				}
+				
+				bw.write(entry.getKey()+"|"+postinglist.substring(0,postinglist.length()-1));
 				bw.newLine();
 			}
 

@@ -40,17 +40,22 @@ public class SearchUtils {
 		StringBuilder outputStr=new StringBuilder();
 		StringTokenizer tokenizer = new StringTokenizer(inputStr, " ");
 		while(tokenizer.hasMoreTokens())
-		{
-			outputStr.append(tokenizer.nextToken());
-			outputStr.append("|");//delimeter
+		{   
+			String token = tokenizer.nextToken();
+			if(!SearchUtils.getStopWordsList().contains(token)){
+				outputStr.append(token);
+				outputStr.append("|");//delimeter
+			}
+			
 		}
 		return outputStr.toString().trim();
 	}
 	
 	public static List<String> getStopWordsList(){
 		List<String> stopWordList = new ArrayList<String>();
+		Scanner reader=null;
 		try {
-			Scanner reader= new Scanner(new File("stopwords.txt"));
+			reader= new Scanner(new File("stopwords.txt"));
 			reader.useDelimiter("\n");
 			while(reader.hasNext()){
 				stopWordList.add(reader.next());
@@ -58,6 +63,8 @@ public class SearchUtils {
 		} catch (FileNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
+		}finally{
+			reader.close();
 		}
 		
 		return stopWordList;

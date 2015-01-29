@@ -38,7 +38,7 @@ public class ParseCorpusData {
 			System.out.println("Parsing of Corpus Data is Completed....");
 			long end=System.currentTimeMillis();
 			long diff = end-start;
-			System.out.println("Time Taken to Complete Parsing and Writing Corpus data is "+diff+"milliseconds");
+			System.out.println("Time Taken to Complete Parsing and Writing Corpus data is "+diff+" milliseconds");
 		}
 	 
 		
