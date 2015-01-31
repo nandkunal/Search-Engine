@@ -37,6 +37,7 @@ public class SearchUtils {
 	
 	public static String tokenizeString(String inputStr)
 	{   
+		System.out.println("Tokenizing String..");
 		StringBuilder outputStr=new StringBuilder();
 		StringTokenizer tokenizer = new StringTokenizer(inputStr, " ");
 		while(tokenizer.hasMoreTokens())
@@ -78,9 +79,9 @@ public class SearchUtils {
 	{   
 		
 		ParseCorpusData parser = new ParseCorpusData();
-		parser.parseCorpusUnFormattedData(inputFilePath,documentDirName);
-		InvertedIndex iv=new InvertedIndex();
-        iv.createInvertedIndex(documentDirName, invertedIndexFileName);
+		parser.parseCorpusUnFormattedData(inputFilePath,documentDirName,invertedIndexFileName);
+		//InvertedIndex iv=new InvertedIndex();
+        //iv.createInvertedIndex(documentDirName, invertedIndexFileName);
 	}
 
 }

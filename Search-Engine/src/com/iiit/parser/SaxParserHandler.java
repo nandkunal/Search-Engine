@@ -1,27 +1,23 @@
 package com.iiit.parser;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-
+import java.util.List;
+import java.util.Map;
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
 public class SaxParserHandler extends DefaultHandler {
-	boolean page = false;
-	int documentID=0;
+	boolean text = false;
+	boolean id = false;
+	Map<String,List<Postings>> invertedIndexMap = null;
 	String documentDirPath;
+	int docId=1;
+	String documentID;
 	
-	public SaxParserHandler(String documentDirPath)
+	public SaxParserHandler(Map<String,List<Postings>> invertedIndexMap)
 	{
 		
-		this.documentDirPath=documentDirPath;
-		SearchUtils.createRawDataDocumentDirectory(documentDirPath);
-		
-		
-		
+		this.invertedIndexMap=invertedIndexMap;
 	}
 	
 	public void startElement(String uri, String localName,String qName, 
@@ -30,8 +26,11 @@ public class SaxParserHandler extends DefaultHandler {
 	
 		if(qName.equalsIgnoreCase("text"))
 		{
-			page=true;
-			documentID++;
+			text=true;
+			docId++;
+		}if(qName.equalsIgnoreCase("id"))
+		{
+			id=true;
 		}
 		
 	}
@@ -39,17 +38,14 @@ public class SaxParserHandler extends DefaultHandler {
 	 public void characters (char ch[], int start, int length)
 		        throws SAXException
 	 {  
-		 if (page) {
-		 String fileName="datafile_"+documentID;
-		 FileWriter fw = null;
-		 BufferedWriter bw =null;
-		 File documentFile=new File(documentDirPath+File.separator+fileName);
-		 try {
-			 fw = new FileWriter(documentFile,true);
-			 bw = new BufferedWriter(fw);
-
+		 if(id){
+			 documentID = new String(ch, start, length);
+		 }
+		 
+		 if (text) {
+		
+             String tokenizedString =null;
 			 String value = new String(ch, start, length);
-			
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
 					 //Perform all Kinds of 
@@ -63,24 +59,17 @@ public class SaxParserHandler extends DefaultHandler {
 					 value=value.replaceAll("\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\=|\\|","");//Removing extra characters
 					 value=value.replaceAll("&nbsp;", " ");
 					 //Now Tokenizing in Memory
-					 value=SearchUtils.tokenizeString(value);
-					 bw.write(value);
+					 tokenizedString=SearchUtils.tokenizeString(value);
+					 Index indexObj = new Index();
+					 indexObj.buildIndex(tokenizedString, invertedIndexMap, documentID.trim());
+					 
+					
 					 
 				 }
 			 
 			 
-		 } catch (IOException e) {
-			 // TODO Auto-generated catch block
-			 e.printStackTrace();
-		 }finally{
-			 try {
-				 bw.close();
-				 fw.close();
-			 } catch (IOException e) {
-				 // TODO Auto-generated catch block
-				 e.printStackTrace();
-			 }
-		 }
+		
+		 
 		 }
 	 }
 	public void endElement(String uri, String localName,
@@ -88,7 +77,10 @@ public class SaxParserHandler extends DefaultHandler {
 	  
 		if(qName.equalsIgnoreCase("text"))
 		{
-			page=false;
+			text=false;
+		}if(qName.equalsIgnoreCase("id"))
+		{
+			id=false;
 		}
 	 
 		}
