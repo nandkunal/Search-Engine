@@ -1,7 +1,16 @@
 package com.iiit.parser;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
@@ -9,15 +18,21 @@ import org.xml.sax.helpers.DefaultHandler;
 public class SaxParserHandler extends DefaultHandler {
 	boolean text = false;
 	boolean id = false;
-	Map<String,List<Postings>> invertedIndexMap = null;
+	private Map<String,List<Postings>> invertedIndexMap = null;
 	String documentDirPath;
-	int docId=1;
 	String documentID;
+	List<String> stopWordlist=null;
+	Pattern pattern = null;
+	Matcher matcher=null;
 	
-	public SaxParserHandler(Map<String,List<Postings>> invertedIndexMap)
+	
+	public SaxParserHandler(Map<String,List<Postings>> invertedIndexMap,List<String> stopWordlist)
 	{
 		
 		this.invertedIndexMap=invertedIndexMap;
+		this.stopWordlist=stopWordlist;
+		pattern = Pattern.compile("(^[a-z]+$)");
+		
 	}
 	
 	public void startElement(String uri, String localName,String qName, 
@@ -27,7 +42,6 @@ public class SaxParserHandler extends DefaultHandler {
 		if(qName.equalsIgnoreCase("text"))
 		{
 			text=true;
-			docId++;
 		}if(qName.equalsIgnoreCase("id"))
 		{
 			id=true;
@@ -44,24 +58,11 @@ public class SaxParserHandler extends DefaultHandler {
 		 
 		 if (text) {
 		
-             String tokenizedString =null;
 			 String value = new String(ch, start, length);
 				 if(value.length()!=0)//Check if tag is not empty
 				 {   
-					 //Perform all Kinds of 
-					 //1.Invalid character removal
-					 //2.Filtering words
-					 //3.Removing empty space and lines
-					 //4.Removing extra characters
-					 value=value.replaceAll("\\s{2,}","");//Removing More Than One Empty Spaces
-					 value=value.replaceAll("\\d", "");//Remove all Numeric characters
-					 value=value.replaceAll("\\.", "");
-					 value=value.replaceAll("\\[|\\]|\\{|\\}|\\(|\\|\\)|\\\n|\\<|\\>|\\-+|\\=|\\|","");//Removing extra characters
-					 value=value.replaceAll("&nbsp;", " ");
-					 //Now Tokenizing in Memory
-					 tokenizedString=SearchUtils.tokenizeString(value);
-					 Index indexObj = new Index();
-					 indexObj.buildIndex(tokenizedString, invertedIndexMap, documentID.trim());
+					 
+					 tokenizeStringAndPopulateIndexMap(value,documentID);
 					 
 					
 					 
@@ -84,5 +85,57 @@ public class SaxParserHandler extends DefaultHandler {
 		}
 	 
 		}
+	
+	private void tokenizeStringAndPopulateIndexMap(String str,String docId)
+	{
+		for(String word:str.split("\\s"))
+		{
+			word=word.trim().toLowerCase();
+			Matcher matcher = pattern.matcher(word);
+			if (matcher.find() && !stopWordlist.contains(word) && word.length()>=3)
+			  {
+				buildInvertedIndex(word,docId);
+			  }
+		}
+	}
+	
+	private void buildInvertedIndex(String term,String docId)
+	{
+		if(invertedIndexMap.containsKey(term)){
+    		List<Postings>postlist=invertedIndexMap.get(term);
+    		Postings post = getPostingByDocId(docId, postlist);
+    		
+    		if(post!=null){
+    			post.setTermFrequency(post.getTermFrequency()+1);
+    			invertedIndexMap.put(term, postlist);
+    		}else{
+    			Postings newPost= new Postings();
+    			newPost.setDocumentID(docId);
+    			newPost.setTermFrequency(1);
+    			postlist.add(newPost);
+    		}
+    		
+    	}else{
+    		Postings posting= new Postings();
+    		posting.setDocumentID(docId);
+    		posting.setTermFrequency(1);
+    		List<Postings> postlist=new ArrayList<Postings>();
+    		postlist.add(posting);
+    		invertedIndexMap.put(term,postlist);
+    	}	
+	}
+	
+	private Postings getPostingByDocId(String docId,List<Postings> postlist)
+	{
+		for(Postings post:postlist)
+		{
+			if(post.getDocumentID().equalsIgnoreCase(docId))
+				return post;
+		}
+		return null;
+	}
+
+
+	
 	
 }

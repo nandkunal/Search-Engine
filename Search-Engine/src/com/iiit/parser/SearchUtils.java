@@ -10,52 +10,9 @@ import java.util.StringTokenizer;
 
 public class SearchUtils {
 	
-	public static File  createRawDataFileFromCorpus(String path,String fileName)
-	{
-		
-		File plainDataFile = new File(path+File.separator+fileName);
-		try {
-			if(!plainDataFile.exists())//Don't Create Corpus File Each time
-			plainDataFile.createNewFile();
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return plainDataFile;
-	}
+
 	
-	public static void createRawDataDocumentDirectory(String documentDirPath)
-	{
-		
-		File plainDataFile = new File(documentDirPath);
-		
-			if(!plainDataFile.exists())//Don't Create Corpus Directory Each time
-			plainDataFile.mkdir();
-		
-	}
-	
-	public static String tokenizeString(String inputStr)
-	{   
-		System.out.println("Tokenizing String..");
-		StringBuilder outputStr=new StringBuilder();
-		StringTokenizer tokenizer = new StringTokenizer(inputStr, " ");
-		while(tokenizer.hasMoreTokens())
-		{   
-			String token = tokenizer.nextToken();
-			token=token.toLowerCase().trim();//Converting all To Lower Case
-			token=token.replaceAll("\\,", "");
-			if(!token.contains("_") && !(token.length()==1)){
-			if(!SearchUtils.getStopWordsList().contains(token)){
-				outputStr.append(token);
-				outputStr.append("|");//delimeter
-			}
-			}
-			
-		}
-		return outputStr.toString().trim();
-	}
-	
+
 	public static List<String> getStopWordsList(){
 		List<String> stopWordList = new ArrayList<String>();
 		Scanner reader=null;
@@ -75,13 +32,12 @@ public class SearchUtils {
 		return stopWordList;
 	}
 	
-	public static void buildAllIndexFiles(String inputFilePath,String documentDirName,String invertedIndexFileName)
+	public static void buildAllIndexFiles(String inputFilePath,String documentDirName,String invertedIndexFileName, List<String> stopWordlist)
 	{   
 		
 		ParseCorpusData parser = new ParseCorpusData();
-		parser.parseCorpusUnFormattedData(inputFilePath,documentDirName,invertedIndexFileName);
-		//InvertedIndex iv=new InvertedIndex();
-        //iv.createInvertedIndex(documentDirName, invertedIndexFileName);
+		parser.parseCorpusUnFormattedData(inputFilePath,documentDirName,invertedIndexFileName,stopWordlist);
+		
 	}
 
 }

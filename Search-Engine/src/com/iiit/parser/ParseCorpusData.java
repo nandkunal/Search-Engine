@@ -17,7 +17,7 @@ import org.xml.sax.SAXException;
 
 public class ParseCorpusData {
 
-	public  void parseCorpusUnFormattedData(String inputFilePath,String documentDirName,String indexFileName) {
+	public  void parseCorpusUnFormattedData(String inputFilePath,String documentDirName,String indexFileName,List<String> stopWordlist) {
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		Map<String,List<Postings>> invertedIndexMap = new HashMap<String,List<Postings>>();
@@ -25,7 +25,7 @@ public class ParseCorpusData {
 		long start=System.currentTimeMillis();
 		try {
 			SAXParser saxParser = factory.newSAXParser();
-				saxParser.parse(inputFilePath, new SaxParserHandler(invertedIndexMap));
+				saxParser.parse(inputFilePath, new SaxParserHandler(invertedIndexMap,stopWordlist));
 			
 		} catch (ParserConfigurationException e) {
 			
