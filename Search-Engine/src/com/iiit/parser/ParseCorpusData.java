@@ -64,7 +64,7 @@ public class ParseCorpusData {
 				StringBuilder postinglist=new StringBuilder();
 				for(Postings p :lst)
 				{
-					postinglist.append(p.getDocumentID()+":"+p.getTermFrequency());
+					postinglist.append(p.getDocumentID()+"-"+p.getTermFrequency()+":"+printMap(p.getMultiFields()));
 					postinglist.append(",");
 				}
 				
@@ -89,5 +89,17 @@ public class ParseCorpusData {
 		}
 			
 
+}
+	
+private String printMap(Map<Character,Integer>fieldMap)
+{
+	StringBuilder strMap=new StringBuilder();
+	for (Entry<Character, Integer> entry : fieldMap.entrySet())
+	{
+		strMap.append(entry.getKey()+"-"+entry.getValue());
+		strMap.append(":");
+	}
+	
+	return strMap.toString().substring(0, strMap.length()-1);
 }
 }

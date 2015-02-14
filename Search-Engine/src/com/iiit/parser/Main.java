@@ -12,7 +12,8 @@ public class Main {
 		String documentDirName="Index";
 		String indexFileName="inverted_index";
         List<String> stopWordlist= SearchUtils.getStopWordsList(); 
-        SearchUtils.buildAllIndexFiles(inputFilePath,documentDirName,indexFileName,stopWordlist); 
+        SearchUtils.buildAllIndexFiles(inputFilePath,documentDirName,indexFileName,stopWordlist);
+        
 		
 	}
 
