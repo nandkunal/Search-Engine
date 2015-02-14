@@ -19,6 +19,10 @@ fi
 echo "Compiling Source..."
 javac -d bin -sourcepath src  src/com/iiit/parser/Main.java
 javac -d bin -sourcepath src  src/com/iiit/parser/SearchQueryHandler.java
+javac -d bin -sourcepath src  src/com/iiit/parser/CreateSecondaryIndex.java
+javac -d bin -sourcepath src  src/com/iiit/parser/SecondaryIndexMain.java
 echo "All Source Compiled Successfully"
 #Run Indexing as Part of Installation
-java -cp bin com.iiit.parser.Main $1	
+java -cp bin com.iiit.parser.Main $1
+echo "-----------------CREATING SECONDARY INDEX ON INVERTED INDEX--------------------------"
+java -cp bin com.iiit.parser.CreateSecondaryIndex 	

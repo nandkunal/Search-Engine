@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.TreeMap;
 
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.parsers.SAXParser;
@@ -20,7 +21,7 @@ public class ParseCorpusData {
 	public  void parseCorpusUnFormattedData(String inputFilePath,String documentDirName,String indexFileName,List<String> stopWordlist) {
 
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		Map<String,List<Postings>> invertedIndexMap = new HashMap<String,List<Postings>>();
+		Map<String,List<Postings>> invertedIndexMap = new TreeMap<String,List<Postings>>();
 		System.out.println("Process Started...");
 		long start=System.currentTimeMillis();
 		try {
@@ -39,8 +40,8 @@ public class ParseCorpusData {
 			buildInvertedindex(invertedIndexMap,documentDirName,indexFileName);
 			System.out.println("Process Finished....");
 			long end=System.currentTimeMillis();
-			long diff = end-start;
-			System.out.println("Time Taken to Complete Parsing and creating inverted index is "+diff+" milliseconds");
+			float diff = (end-start)/60000;
+			System.out.println("Time Taken to Complete Parsing and creating inverted index is "+diff+" minutes");
 		}
 	 
 		

@@ -10,6 +10,7 @@ import java.util.NoSuchElementException;
 import java.util.Scanner;
 import java.util.Set;
 import java.util.StringTokenizer;
+import java.util.TreeMap;
 
 public class SearchQuery {
 	
@@ -31,7 +32,7 @@ public class SearchQuery {
 		if(query.contains(":"))
 		{
 			//MultiField Query 
-			Map<String,String> queryFieldMap=new HashMap<String, String>();
+			Map<String,String> queryFieldMap=new TreeMap<String,String>();
 			String[] fields = query.split(" ");
 			for(String field:fields)
 			{
